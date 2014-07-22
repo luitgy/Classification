@@ -184,9 +184,9 @@ public class CreateGroupActivity extends AppsAbstractActivity {
 					((GlobalApp) getApplicationContext())
 							.setListPlayersNames(listPlayersNames);
 
-					Intent intNewItem = new Intent(view.getContext(),
-							NewItemActivity.class);
-					startActivity(intNewItem);
+					Intent intSelectGroup = new Intent(view.getContext(),
+							SelectPlayersActivity.class);
+					startActivity(intSelectGroup);
 
 					finish();
 

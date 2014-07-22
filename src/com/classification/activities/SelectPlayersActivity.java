@@ -17,7 +17,7 @@ public class SelectPlayersActivity extends AppsAbstractActivity {
 
 	private Button btnStartGame;
 	private Button btnCreateGroup;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,50 +61,53 @@ public class SelectPlayersActivity extends AppsAbstractActivity {
 
 	}
 
-	
 	@Override
 	protected void initControls() {
-		
+
 		btnStartGame = (Button) findViewById(R.id.btnStartGame);
 		btnCreateGroup = (Button) findViewById(R.id.btnCreateGroup);
-		
+
 	}
 
 	@Override
 	protected void initAction() {
-		
+
 		btnStartGame.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View view) {
 
 				((GlobalApp) getApplicationContext()).resetScore();
 
 				((GlobalApp) getApplicationContext()).setRoundGame(1);
-				
+
+				Intent intCardsGame = new Intent(view.getContext(),
+						CardsGameActivity.class);
+				startActivity(intCardsGame);
+
 				finish();
-				
+
 			}
 		});
-		
+
 		btnCreateGroup.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View view) {
-				
+
 				Intent intCreateGroup = new Intent(view.getContext(),
 						CreateGroupActivity.class);
 				startActivity(intCreateGroup);
 				finish();
-				
+
 			}
 		});
-		
+
 	}
 
 	@Override
 	protected void initValues() {
-		
+
 		getSupportActionBar().setDisplayOptions(
 				ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_SHOW_HOME
 						| ActionBar.DISPLAY_HOME_AS_UP);
@@ -112,8 +115,7 @@ public class SelectPlayersActivity extends AppsAbstractActivity {
 				.setTitle(
 						AppsGuiUtils
 								.getTitleSpannable(getString(R.string.title_activity_select_players)));
-		
-	}
 
+	}
 
 }
