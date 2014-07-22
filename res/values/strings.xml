@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Start Title -->
+
+    <string name="app_name">Classification</string>
+    <string name="title_activity_new_item">Nueva Partida</string>
+    <string name="title_activity_load_item">Cargar Partida</string>
+    <string name="title_activity_add_player">Añadir Jugador</string>
+    <string name="title_activity_add_group_players">Añadir Grupo</string>
+    <string name="title_activity_create_group">Crear Grupo</string>
+    <string name="title_activity_cards_game">Juego</string>
+    <string name="title_activity_add_score">Puntuación</string>    
+    <string name="title_activity_select_players">Jugadores</string>
+
+    <!-- End Title -->
+
+
+    <!-- Start Buttons -->
+
+    <string name="newItem">Nueva Partida</string>
+    <string name="loadItem">Cargar Partida</string>
+    <string name="record">Récords</string>
+    <string name="startGame">Empezar Juego</string>
+    <string name="addGroupPlayers">Añadir Grupo Jugadores</string>
+    <string name="createGroup">Crear Grupo</string>
+    <string name="save">Guardar</string>
+    <string name="addPlayer">Añadir Jugador</string>
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="nextRound">Siguiente Ronda</string>
+    <string name="next">Siguiente</string>
+
+    <!-- End Buttons -->
+
+
+    <!-- Start Labels -->
+
+    <string name="gameOptions">Opciones del juego</string>
+    <string name="gameType">Tipo de juego</string>
+    <string name="orderType">Tipo de orden</string>
+    <string name="rounds">Rondas</string>
+    <string name="topScore">Punt. Máxima</string>
+    <string name="ascendant">Ascendente</string>
+    <string name="falling">Descendente</string>
+    <string name="continental">Continental</string>
+    <string name="remijio">Remijio</string>
+    <string name="dados">Dados</string>
+    <string name="personalised">Personalizado</string>
+    <string name="players">Jugadores</string>
+    <string name="player">Jugador</string>
+    <string name="groupName">Nombre del grupo</string>
+    <string name="confirmation">Confirmación</string>
+    <string name="deletePlayerSure">Desea eliminar al jugador?</string>
+    <string name="deletePlayerOk">Jugador eliminado</string>
+    <string name="classification">Clasificación</string>
+    <string name="information">Información</string>
+    <string name="position">Posición</string>
+    <string name="score">Puntuación</string>
+
+    <!-- End Labels -->
+
+
+    <!-- Start Errors -->
+
+    <string name="emptyPlayerName">Nombre del jugador vacio</string>
+    <string name="duplicatePlayerName">Este jugador ya existe</string>
+    <string name="emptyGroupName">Nombre del grupo vacio</string>
+    <string name="minimumPLayers">Mínimo 2 jugadores</string>
+    <string name="numberFormat">No se ha introducido una puntuación correcta</string>
+    <string name="emptyScore">Falta la puntuación de</string>
+
+    <!-- End Errors -->
+
+
+    <!-- Eliminar -->
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
