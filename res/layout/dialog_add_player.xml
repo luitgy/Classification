@@ -23,9 +23,7 @@
             <requestFocus />
 
             <requestFocus />
-
         </EditText>
-
     </LinearLayout>
 
 </LinearLayout>

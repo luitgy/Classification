@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Start Context -->
+
+    <color name="def">#fff</color>
+    <color name="success">#5cb85c</color>
+    <color name="info">#5bc0de</color>
+    <color name="warning">#f0ad4e</color>
+    <color name="danger">#b94a48</color>
+    <color name="primary">#f60</color>
+    <color name="offer">#e2f7fa</color>
+    <color name="text_offer">#0094aa</color>
+    <color name="lineSeparator">#acacac</color>
+    <!-- End Context -->
+
+
+    <!-- Start App -->
+
+    <!--  <color name="background_app">#e9e9e9</color> -->
+    <color name="background_app">#e0f8ec</color>
+    <color name="border_list">#b9b9b9</color>
+    <color name="semi_transparent_black">#22FFFFFF</color>
+    <color name="effect_click_button">#535353</color>
+    <color name="background_menu_bar">#91b3a3</color>
+    <color name="background_image_home">#ede4db</color>
+    <color name="backgroung_title_gray">#767676</color>
+
+    <!-- End App -->
+
+
+    <!-- Start Text -->
+
+    <color name="default_text">#333</color>
+    <color name="title">#555</color>
+    <color name="title_brown">#8d7460</color>
+    <color name="titleTabSelected">#0089e8</color>
+    <color name="titleTabNotSelected">#3e3e3e</color>
+    <color name="description">#9c9c9c</color>
+
+    <!-- End Text -->
+
+
+    <!-- Start Generic -->
+
+    <color name="black">#333</color>
+    <color name="gray">#666</color>
+    <color name="gray_panel">#999</color>
+
+    <!-- End Generic -->
+
+
+    <!-- A revisar -->
+
+
+    <!--
+  <color name="orange">#f60</color>
+    <color name="green">#699f00</color>
+    <color name="dark_green">#468847</color>
+    <color name="red">#872119</color>
+    <color name="light_red">#FED3CF</color>
+    <color name="dark_red">#b94a48</color>
+    <color name="black_button">#535353</color>
+    <color name="title_brown">#8d7460</color>
+    
+    <color name="text_black">#444</color>
+    <color name="btn_green">#7ab800</color>
+    -->
+
+</resources>

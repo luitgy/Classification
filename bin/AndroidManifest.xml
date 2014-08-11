@@ -13,9 +13,10 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/Theme.Styled" >
         <activity
             android:name="com.classification.activities.MainActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,28 +25,49 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.classification.activities.NewItemActivity"
-            android:label="@string/title_activity_new_item" >
-        </activity>
-        <activity
-            android:name="com.classification.activities.LoadItemActivity"
-            android:label="@string/title_activity_load_item" >
-        </activity>
-        <activity
             android:name="com.classification.activities.CreateGroupActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_create_group" >
         </activity>
         <activity
             android:name="com.classification.activities.CardsGameActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_cards_game" >
         </activity>
         <activity
             android:name="com.classification.activities.AddScoreActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_add_score" >
         </activity>
         <activity
             android:name="com.classification.activities.SelectPlayersActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_select_players" >
+        </activity>
+        <activity
+            android:name="com.classification.activities.EndGameActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_end_game" >
+        </activity>
+        <activity
+            android:name="com.classification.activities.RecordActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_record" >
+        </activity>
+        <activity
+            android:name="com.classification.activities.SelectGameActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_select_game" >
+        </activity>
+        <activity
+            android:name="com.classification.activities.CreateGameActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_create_game" >
+        </activity>
+        <activity
+            android:name="com.classification.activities.RecordGameActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_record_game" >
         </activity>
     </application>
 

@@ -3,6 +3,7 @@ package com.classification.activities;
 import com.classification.R;
 import com.classification.application.GlobalApp;
 import com.commons.activity.AppsAbstractActivity;
+import com.commons.util.AppsGuiUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +13,6 @@ import android.widget.Button;
 public class MainActivity extends AppsAbstractActivity {
 
 	private Button btnNew;
-	private Button btnLoad;
 	private Button btnRecord;
 
 	@Override
@@ -28,8 +28,14 @@ public class MainActivity extends AppsAbstractActivity {
 	protected void initControls() {
 
 		btnNew = (Button) findViewById(R.id.btnNew);
-		btnLoad = (Button) findViewById(R.id.btnLoad);
 		btnRecord = (Button) findViewById(R.id.btnRecord);
+
+		AppsGuiUtils.addButtonEffectClick(
+				getResources().getColor(R.color.effect_click_button), btnNew);
+		AppsGuiUtils
+				.addButtonEffectClick(
+						getResources().getColor(R.color.effect_click_button),
+						btnRecord);
 
 	}
 
@@ -43,32 +49,37 @@ public class MainActivity extends AppsAbstractActivity {
 
 				((GlobalApp) getApplicationContext()).resetValues();
 
-				Intent intNew = new Intent(v.getContext(),
-						NewItemActivity.class);
-				startActivity(intNew);
+				Intent intSelectGame = new Intent(v.getContext(),
+						SelectGameActivity.class);
+				startActivity(intSelectGame);
 				finish();
 
 			}
 
 		});
 
-		btnLoad.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				Intent intLoad = new Intent(v.getContext(),
-						LoadItemActivity.class);
-				startActivity(intLoad);
-				finish();
-
-			}
-		});
+		// btnLoad.setOnClickListener(new View.OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		//
+		// Intent intLoad = new Intent(v.getContext(),
+		// LoadItemActivity.class);
+		// startActivity(intLoad);
+		// finish();
+		//
+		// }
+		// });
 
 		btnRecord.setOnClickListener(new View.OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(View view) {
+
+				Intent intRecord = new Intent(view.getContext(),
+						RecordActivity.class);
+				startActivity(intRecord);
+				finish();
 
 			}
 		});

@@ -10,10 +10,31 @@
     <string name="title_activity_add_group_players">Añadir Grupo</string>
     <string name="title_activity_create_group">Crear Grupo</string>
     <string name="title_activity_cards_game">Juego</string>
-    <string name="title_activity_add_score">Puntuación</string>    
+    <string name="title_activity_add_score">Puntuación</string>
     <string name="title_activity_select_players">Jugadores</string>
+    <string name="title_activity_end_game">Fin de la partida</string>
+    <string name="title_activity_record">Seleccionar Juego</string>
+    <string name="title_activity_select_game">Seleccionar Juego</string>
+    <string name="title_activity_create_game">Crear Juego</string>
+    <string name="title_activity_statistics_game">Estadísticas del juego</string>
+    <string name="title_activity_record_game">Récords</string>
 
     <!-- End Title -->
+
+
+    <!-- Start Icons -->
+
+    <string name="icon_information">&#xf05a;</string>
+
+    <!-- End Icons -->
+
+
+    <!-- Start Menu -->
+
+    <string name="statistics">Estadísticas</string>
+    <string name="resetGame">Reiniciar Juego</string>
+
+    <!-- End Menu -->
 
 
     <!-- Start Buttons -->
@@ -30,6 +51,8 @@
     <string name="cancel">Cancelar</string>
     <string name="nextRound">Siguiente Ronda</string>
     <string name="next">Siguiente</string>
+    <string name="create">Crear</string>
+    <string name="createGame">Crear Juego</string>
 
     <!-- End Buttons -->
 
@@ -52,11 +75,23 @@
     <string name="groupName">Nombre del grupo</string>
     <string name="confirmation">Confirmación</string>
     <string name="deletePlayerSure">Desea eliminar al jugador?</string>
+    <string name="deleteGroupSure">Desea eliminar el grupo?</string>
     <string name="deletePlayerOk">Jugador eliminado</string>
     <string name="classification">Clasificación</string>
     <string name="information">Información</string>
     <string name="position">Posición</string>
     <string name="score">Puntuación</string>
+    <string name="groups">Grupos</string>
+    <string name="thereAreNoGroups">No existen grupos</string>
+    <string name="thereAreNoGames">No existen juegos</string>
+    <string name="newRecord">Nuevo Récord</string>
+    <string name="exit">Salir</string>
+    <string name="exitGameSure">Desea salir de la partida?</string>
+    <string name="noRecords">No existen récords</string>
+    <string name="gameName">Nombre del juego</string>
+    <string name="games">Juegos</string>
+    <string name="moreOptions">Más Opciones</string>
+    <string name="icon_more_options">&#xf142;</string>
 
     <!-- End Labels -->
 
@@ -69,6 +104,11 @@
     <string name="minimumPLayers">Mínimo 2 jugadores</string>
     <string name="numberFormat">No se ha introducido una puntuación correcta</string>
     <string name="emptyScore">Falta la puntuación de</string>
+    <string name="groupNoSelected">Debes seleccionar un grupo de jugadores</string>
+    <string name="noRoundsOrScoreInformed">Se debe informar las rondas o la puntuación</string>
+    <string name="emptyGameName">Nombre del juego vacio</string>
+    <string name="emptyGoalGame_1">Se debe informar </string>
+    <string name="emptyGoalGame_2">del juego</string>
 
     <!-- End Errors -->
 

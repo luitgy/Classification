@@ -3,6 +3,7 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_app"
     android:orientation="vertical"
     tools:context=".AddScoreActivity" >
 
@@ -19,8 +20,8 @@
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/cell_classification"
             android:text="@string/save" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -34,9 +35,9 @@
         <ListView
             android:id="@+id/listViewScore"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:divider="@android:color/transparent" >
         </ListView>
-
     </LinearLayout>
 
 </LinearLayout>

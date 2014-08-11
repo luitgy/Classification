@@ -7,6 +7,8 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
 import com.classification.R;
 import com.classification.application.GlobalApp;
+import com.classification.data.DataBaseController;
+import com.classification.entities.Group;
 import com.commons.activity.AppsAbstractActivity;
 import com.commons.util.AppsGuiUtils;
 import com.commons.util.AppsUtils;
@@ -20,11 +22,14 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class CreateGroupActivity extends AppsAbstractActivity {
 
@@ -38,7 +43,7 @@ public class CreateGroupActivity extends AppsAbstractActivity {
 	private ListView listViewPlayers;
 
 	private LayoutInflater inflater;
-	private ArrayAdapter<String> listAdapter;
+	private AdapterList adapterList;
 
 	private ArrayList<String> listPlayersNames = new ArrayList<String>();
 
@@ -94,6 +99,13 @@ public class CreateGroupActivity extends AppsAbstractActivity {
 		txtGroupName = (EditText) findViewById(R.id.txtGroupName);
 
 		listViewPlayers = (ListView) findViewById(R.id.listViewPlayers);
+
+		AppsGuiUtils.addButtonEffectClick(
+				getResources().getColor(R.color.effect_click_button),
+				btnAddPlayer);
+		AppsGuiUtils.addButtonEffectClick(
+				getResources().getColor(R.color.effect_click_button),
+				btnSaveGroup);
 
 	}
 
@@ -176,11 +188,13 @@ public class CreateGroupActivity extends AppsAbstractActivity {
 							getString(R.string.minimumPLayers));
 				} else {
 
-					// TODO - GUARDAR GRUPO EN BBDD
+					DataBaseController dbController = new DataBaseController(
+							view.getContext());
 
-					((GlobalApp) getApplicationContext())
-							.setGroupName(txtGroupName.getText().toString()
-									.trim());
+					Group group = dbController.saveGroup(txtGroupName.getText()
+							.toString(), listPlayersNames);
+
+					((GlobalApp) getApplicationContext()).setGroup(group);
 					((GlobalApp) getApplicationContext())
 							.setListPlayersNames(listPlayersNames);
 
@@ -222,7 +236,7 @@ public class CreateGroupActivity extends AppsAbstractActivity {
 														getString(R.string.deletePlayerOk));
 
 										loadList();
-										listAdapter.notifyDataSetChanged();
+										adapterList.notifyDataSetChanged();
 
 									}
 								});
@@ -267,11 +281,10 @@ public class CreateGroupActivity extends AppsAbstractActivity {
 
 	private void loadList() {
 
-		listAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, listPlayersNames);
+		adapterList = new AdapterList(this, listPlayersNames);
 
-		listViewPlayers.setAdapter(listAdapter);
-
+		listViewPlayers.setAdapter(adapterList);
+		
 	}
 
 	private boolean isDuplicate(String name) {
@@ -296,6 +309,71 @@ public class CreateGroupActivity extends AppsAbstractActivity {
 		}
 
 		return duplicate;
+
+	}
+
+	private static class AdapterList extends BaseAdapter {
+
+		private LayoutInflater mInflater;
+		private ArrayList<String> listPlayer;
+
+		public AdapterList(Context context, ArrayList<String> listPlayer) {
+			mInflater = LayoutInflater.from(context);
+			this.listPlayer = listPlayer;
+		}
+
+		@Override
+		public int getCount() {
+
+			if (!AppsUtils.isEmpty(listPlayer)) {
+				return listPlayer.size();
+			}
+
+			return 0;
+
+		}
+
+		@Override
+		public Object getItem(int position) {
+
+			if (!AppsUtils.isEmpty(listPlayer)) {
+				return listPlayer.get(position);
+			}
+
+			return null;
+
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return 0;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+
+			TextView lblName;
+			LinearLayout lytImageSelected;
+
+			if (convertView == null) {
+				convertView = mInflater.inflate(R.layout.cell_group_selected,
+						null);
+			}
+
+			lblName = (TextView) convertView.findViewById(R.id.lblNameGroup);
+
+			lytImageSelected = (LinearLayout) convertView
+					.findViewById(R.id.lytImageSelected);
+
+			String namePlayer = listPlayer.get(position);
+
+			lblName.setText(namePlayer);
+
+			lytImageSelected.setVisibility(View.INVISIBLE);
+
+			return convertView;
+
+		}
 
 	}
 

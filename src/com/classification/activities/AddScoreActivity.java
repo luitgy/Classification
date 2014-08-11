@@ -1,17 +1,19 @@
 package com.classification.activities;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
 import com.classification.R;
-import com.classification.R.id;
-import com.classification.R.layout;
-import com.classification.R.string;
 import com.classification.application.GlobalApp;
+import com.classification.entities.Game;
 import com.classification.entities.Player;
+import com.classification.util.Constants;
 import com.commons.activity.AppsAbstractActivity;
+import com.commons.util.AppsConstants;
 import com.commons.util.AppsGuiUtils;
 import com.commons.util.AppsUtils;
 
@@ -26,7 +28,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class AddScoreActivity extends AppsAbstractActivity {
 
@@ -84,6 +85,9 @@ public class AddScoreActivity extends AppsAbstractActivity {
 
 		listViewScore = (ListView) findViewById(R.id.listViewScore);
 
+		AppsGuiUtils.addButtonEffectClick(
+				getResources().getColor(R.color.effect_click_button), btnSave);
+
 	}
 
 	@Override
@@ -97,7 +101,7 @@ public class AddScoreActivity extends AppsAbstractActivity {
 				btnSave.setFocusable(Boolean.TRUE);
 				btnSave.setFocusableInTouchMode(Boolean.TRUE);
 				btnSave.requestFocus();
-				
+
 				Iterator<Player> iterPlayers = ((GlobalApp) getApplicationContext())
 						.getListPlayers().iterator();
 
@@ -124,9 +128,26 @@ public class AddScoreActivity extends AppsAbstractActivity {
 					iterPlayers = ((GlobalApp) getApplicationContext())
 							.getListPlayers().iterator();
 
+					Integer rounds = ((GlobalApp) getApplicationContext())
+							.getRoundGame();
+
 					while (iterPlayers.hasNext()) {
 
 						Player player = iterPlayers.next();
+
+						if (player.getMinScoreGame() == null
+								|| (player.getMinScoreGame() > player
+										.getRoundScore())) {
+							player.setMinScoreGame(player.getRoundScore());
+						}
+
+						if (player.getMaxScoreGame() == null
+								|| (player.getMaxScoreGame() < player
+										.getRoundScore())) {
+							player.setMaxScoreGame(player.getRoundScore());
+						}
+
+						player.setAverageScoreGame(player.getScore() / rounds);
 
 						player.setScore(player.getScore()
 								+ player.getRoundScore());
@@ -134,20 +155,126 @@ public class AddScoreActivity extends AppsAbstractActivity {
 
 					}
 
-					((GlobalApp) getApplicationContext())
-							.setRoundGame(((GlobalApp) getApplicationContext())
-									.getRoundGame() + 1);
+					if (!endGameVerify()) {
 
-					Intent intCardsGame = new Intent(view.getContext(),
-							CardsGameActivity.class);
-					startActivity(intCardsGame);
+						((GlobalApp) getApplicationContext())
+								.setRoundGame(((GlobalApp) getApplicationContext())
+										.getRoundGame() + 1);
 
-					finish();
+						Intent intCardsGame = new Intent(view.getContext(),
+								CardsGameActivity.class);
+						startActivity(intCardsGame);
+
+						finish();
+
+					} else {
+
+						finallyOrder();
+
+						Intent intEndGame = new Intent(view.getContext(),
+								EndGameActivity.class);
+						startActivity(intEndGame);
+
+						finish();
+
+					}
 
 				}
 
 			}
 		});
+
+	}
+
+	private void finallyOrder() {
+
+		ArrayList<Player> listPlayers = ((GlobalApp) getApplicationContext())
+				.getListPlayers();
+		final String order = ((GlobalApp) getApplicationContext()).getGame()
+				.getOrderType();
+
+		Collections.sort(listPlayers, new Comparator<Player>() {
+
+			public int compare(Player p1, Player p2) {
+
+				if (order.equals(Constants.ID_ORDER_ASCENDEND)) {
+
+					if (p2.getScore() < p1.getScore()) {
+						return -1;
+					} else if (p2.getScore() > p1.getScore()) {
+						return 1;
+					} else {
+						return 0;
+					}
+
+				} else {
+
+					if (p1.getScore() < p2.getScore()) {
+						return -1;
+					} else if (p1.getScore() > p2.getScore()) {
+						return 1;
+					} else {
+						return 0;
+					}
+
+				}
+
+			}
+
+		});
+
+		if (!AppsUtils.isEmpty(listPlayers)) {
+
+			Iterator<Player> iterPlayer = listPlayers.iterator();
+
+			Integer position = 1;
+
+			while (iterPlayer.hasNext()) {
+
+				Player player = iterPlayer.next();
+
+				player.setPosition(position++);
+
+			}
+
+		}
+
+	}
+
+	private boolean endGameVerify() {
+
+		boolean endGame = Boolean.FALSE;
+
+		Game game = ((GlobalApp) getApplicationContext()).getGame();
+
+		if (game.getTypeGame().equals(Constants.ID_TYPE_GAME_ROUNDS)) {
+
+			Integer roundGame = ((GlobalApp) getApplicationContext())
+					.getRoundGame();
+
+			if (roundGame >= game.getGoalGame()) {
+				endGame = Boolean.TRUE;
+			}
+
+		} else {
+
+			Iterator<Player> iterPlayer = ((GlobalApp) getApplicationContext())
+					.getListPlayers().iterator();
+
+			while (iterPlayer.hasNext()) {
+
+				Player player = iterPlayer.next();
+
+				if (player.getScore() >= game.getGoalGame()) {
+					endGame = Boolean.TRUE;
+					break;
+				}
+
+			}
+
+		}
+
+		return endGame;
 
 	}
 
@@ -210,19 +337,23 @@ public class AddScoreActivity extends AppsAbstractActivity {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 
-			TextView lblName;
+			// TextView lblName;
 			final EditText txtScore;
 
 			if (convertView == null) {
 				convertView = mInflater.inflate(R.layout.cell_score, null);
 			}
 
-			lblName = (TextView) convertView.findViewById(R.id.lblPlayerName);
+			// lblName = (TextView)
+			// convertView.findViewById(R.id.lblPlayerName);
 			txtScore = (EditText) convertView.findViewById(R.id.txtScore);
 
 			final Player player = listPlayer.get(position);
 
-			lblName.setText(player.getName());
+			// lblName.setText(player.getName());
+
+			txtScore.setHint(context.getString(R.string.score)
+					+ AppsConstants.SPACE + player.getName());
 
 			txtScore.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 

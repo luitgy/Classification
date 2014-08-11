@@ -9,14 +9,18 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
 import com.classification.R;
 import com.classification.application.GlobalApp;
+import com.classification.data.DataBaseController;
 import com.classification.entities.Game;
 import com.classification.entities.Player;
+import com.classification.entities.Record;
 import com.classification.util.Constants;
 import com.commons.activity.AppsAbstractActivity;
 import com.commons.util.AppsGuiUtils;
 import com.commons.util.AppsUtils;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -25,15 +29,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class CardsGameActivity extends AppsAbstractActivity {
 
+	private Context context = this;
+
 	private Game game;
 
 	private TextView lblDescTarget;
 	private TextView lblValueTarget;
+
+	private TextView lblPlayerMaxRecord;
+	private TextView lblPlayerMinRecord;
+	private TextView lblValueMaxRecord;
+	private TextView lblValueMinRecord;
+
+	private LinearLayout lytMaxRecord;
+	private LinearLayout lytMinRecord;
 
 	private Button btnNextRound;
 
@@ -53,10 +68,33 @@ public class CardsGameActivity extends AppsAbstractActivity {
 
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 
-			Intent intent = new Intent(this, NewItemActivity.class);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-			startActivity(intent);
-			finish();
+			builder.setMessage(getString(R.string.exitGameSure))
+					.setTitle(getString(R.string.exit))
+					.setPositiveButton(getString(R.string.accept),
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+
+									Intent intent = new Intent(context,
+											MainActivity.class);
+
+									startActivity(intent);
+									finish();
+
+									dialog.cancel();
+								}
+							})
+					.setNegativeButton(getString(R.string.cancel),
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							});
+
+			builder.create().show();
 
 			return Boolean.TRUE;
 
@@ -71,10 +109,33 @@ public class CardsGameActivity extends AppsAbstractActivity {
 
 		if (item.getItemId() == android.R.id.home) {
 
-			Intent intent = new Intent(this, NewItemActivity.class);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-			startActivity(intent);
-			finish();
+			builder.setMessage(getString(R.string.exitGameSure))
+					.setTitle(getString(R.string.exit))
+					.setPositiveButton(getString(R.string.accept),
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+
+									Intent intent = new Intent(context,
+											MainActivity.class);
+
+									startActivity(intent);
+									finish();
+
+									dialog.cancel();
+								}
+							})
+					.setNegativeButton(getString(R.string.cancel),
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							});
+
+			builder.create().show();
 
 		}
 
@@ -88,9 +149,21 @@ public class CardsGameActivity extends AppsAbstractActivity {
 		lblDescTarget = (TextView) findViewById(R.id.lblDescTarget);
 		lblValueTarget = (TextView) findViewById(R.id.lblValueTarget);
 
+		lblPlayerMaxRecord = (TextView) findViewById(R.id.lblPlayerMaxRecord);
+		lblPlayerMinRecord = (TextView) findViewById(R.id.lblPlayerMinRecord);
+
+		lblValueMaxRecord = (TextView) findViewById(R.id.lblValueMaxRecord);
+		lblValueMinRecord = (TextView) findViewById(R.id.lblValueMinRecord);
+
 		listViewClassification = (ListView) findViewById(R.id.listViewClassification);
 
 		btnNextRound = (Button) findViewById(R.id.btnNextRound);
+
+		lytMaxRecord = (LinearLayout) findViewById(R.id.lytMaxRecord);
+		lytMinRecord = (LinearLayout) findViewById(R.id.lytMinRecord);
+		
+		AppsGuiUtils.addButtonEffectClick(
+				getResources().getColor(R.color.effect_click_button), btnNextRound);
 
 	}
 
@@ -122,15 +195,74 @@ public class CardsGameActivity extends AppsAbstractActivity {
 				ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_SHOW_HOME
 						| ActionBar.DISPLAY_HOME_AS_UP);
 		getSupportActionBar().setTitle(
-				AppsGuiUtils.getTitleSpannable(game.getDescription()));
-
-		initPlayers();
+				AppsGuiUtils.getTitleSpannable(game.getName()));
 
 		initInfo();
+
+		initRecords();
 
 		listViewClassification.setAdapter(new AdapterList(this,
 				((GlobalApp) getApplicationContext()).getListPlayers(), game
 						.getOrderType()));
+
+	}
+
+	private void initRecords() {
+
+		DataBaseController dbController = new DataBaseController(this);
+
+		Integer groupId = ((GlobalApp) getApplicationContext()).getGroup()
+				.getId();
+
+		Integer gameId = ((GlobalApp) getApplicationContext()).getGame()
+				.getId();
+
+		ArrayList<Record> listRecord = dbController.loadGroupRecord(groupId,
+				gameId);
+
+		if (!AppsUtils.isEmpty(listRecord)) {
+
+			Iterator<Record> iterRecord = listRecord.iterator();
+
+			while (iterRecord.hasNext()) {
+
+				Record record = iterRecord.next();
+
+				if (record.getType().equals(Constants.MAX_RECORD_VALUE)) {
+
+					lblPlayerMaxRecord.setText(record.getPlayerName());
+					lblValueMaxRecord.setText(record.getValue().toString());
+
+					((GlobalApp) getApplicationContext()).setMaxRecord(record
+							.getValue());
+
+				} else if (record.getType().equals(Constants.MIN_RECORD_VALUE)) {
+
+					lblPlayerMinRecord.setText(record.getPlayerName());
+					lblValueMinRecord.setText(record.getValue().toString());
+
+					((GlobalApp) getApplicationContext()).setMinRecord(record
+							.getValue());
+
+				}
+
+			}
+
+		} else {
+
+			((GlobalApp) getApplicationContext()).setMaxRecord(null);
+			((GlobalApp) getApplicationContext()).setMinRecord(null);
+
+			lytMaxRecord.removeAllViews();
+			lytMinRecord.removeAllViews();
+
+			TextView lblNoRecords = new TextView(this);
+
+			lblNoRecords.setText(getString(R.string.noRecords));
+
+			lytMaxRecord.addView(lblNoRecords);
+
+		}
 
 	}
 
@@ -139,36 +271,13 @@ public class CardsGameActivity extends AppsAbstractActivity {
 		lblDescTarget.setText(Constants.EMPTY_STRING);
 		lblValueTarget.setText(Constants.EMPTY_STRING);
 
-		if (game.getRounds() != null) {
+		if (game.getTypeGame().equals(Constants.ID_TYPE_GAME_ROUNDS)) {
 			lblDescTarget.setText(getString(R.string.rounds));
 			lblValueTarget.setText(((GlobalApp) getApplicationContext())
-					.getRoundGame() + "/" + game.getRounds().toString());
-		} else if (game.getTopScore() != null) {
-
+					.getRoundGame() + "/" + game.getGoalGame().toString());
+		} else {
 			lblDescTarget.setText(getString(R.string.topScore));
-			lblValueTarget.setText(game.getTopScore().toString());
-		}
-
-	}
-
-	private void initPlayers() {
-
-		if (AppsUtils.isEmpty(((GlobalApp) getApplicationContext())
-				.getListPlayers())) {
-
-			ArrayList<String> listPlayersName = ((GlobalApp) getApplicationContext())
-					.getListPlayersNames();
-
-			Iterator<String> iterPlayersName = listPlayersName.iterator();
-
-			while (iterPlayersName.hasNext()) {
-
-				String name = iterPlayersName.next();
-				((GlobalApp) getApplicationContext()).getListPlayers().add(
-						new Player(name));
-
-			}
-
+			lblValueTarget.setText(game.getGoalGame().toString());
 		}
 
 	}
@@ -181,7 +290,7 @@ public class CardsGameActivity extends AppsAbstractActivity {
 
 		public AdapterList(Context context, ArrayList<Player> listPlayers,
 				String order) {
-			mInflater = LayoutInflater.from(context);
+			this.mInflater = LayoutInflater.from(context);
 			this.listPlayers = listPlayers;
 			this.order = order;
 		}
