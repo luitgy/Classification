@@ -18,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -94,18 +95,19 @@ public class RecordActivity extends AppsAbstractActivity {
 	@Override
 	protected void initAction() {
 
-		listViewGames.setOnClickListener(new View.OnClickListener() {
+		listViewGames
+				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view,
+							int position, long id) {
 
-			@Override
-			public void onClick(View view) {
+						Intent intRecordGame = new Intent(view.getContext(),
+								RecordGameActivity.class);
+						startActivity(intRecordGame);
+						finish();
 
-				Intent intRecordGame = new Intent(view.getContext(),
-						RecordGameActivity.class);
-				startActivity(intRecordGame);
-				finish();
-
-			}
-		});
+					}
+				});
 
 	}
 

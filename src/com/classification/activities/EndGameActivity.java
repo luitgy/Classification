@@ -87,7 +87,7 @@ public class EndGameActivity extends AppsAbstractActivity {
 			startActivity(intent);
 			finish();
 
-		} else if (item.getItemId() == R.id.menuResetGame) {
+		} else if (item.getItemId() == Constants.MENU_RESET_GAME) {
 
 			((GlobalApp) getApplicationContext()).resetGame();
 

@@ -6,7 +6,9 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.SubMenu;
 import com.classification.R;
 import com.classification.application.GlobalApp;
 import com.classification.data.DataBaseController;
@@ -61,6 +63,26 @@ public class CardsGameActivity extends AppsAbstractActivity {
 		initControls();
 		initAction();
 		initValues();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		SubMenu subMenu1 = menu
+				.addSubMenu(getString(R.string.icon_more_options));
+
+		subMenu1.setIcon(getResources().getDrawable(
+				R.drawable.ic_action_overflow));
+
+		subMenu1.add(R.string.moreOptions, Constants.MENU_RESET_GAME, 0,
+				getString(R.string.resetGame));
+
+		MenuItem subMenu1Item = subMenu1.getItem();
+
+		subMenu1Item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+		return Boolean.TRUE;
+
 	}
 
 	@Override
@@ -137,6 +159,15 @@ public class CardsGameActivity extends AppsAbstractActivity {
 
 			builder.create().show();
 
+		} else if (item.getItemId() == Constants.MENU_RESET_GAME) {
+
+			((GlobalApp) getApplicationContext()).resetGame();
+
+			Intent intResetGame = new Intent(this, CardsGameActivity.class);
+
+			startActivity(intResetGame);
+			finish();
+
 		}
 
 		return Boolean.TRUE;
@@ -161,9 +192,10 @@ public class CardsGameActivity extends AppsAbstractActivity {
 
 		lytMaxRecord = (LinearLayout) findViewById(R.id.lytMaxRecord);
 		lytMinRecord = (LinearLayout) findViewById(R.id.lytMinRecord);
-		
+
 		AppsGuiUtils.addButtonEffectClick(
-				getResources().getColor(R.color.effect_click_button), btnNextRound);
+				getResources().getColor(R.color.effect_click_button),
+				btnNextRound);
 
 	}
 

@@ -25,6 +25,25 @@ public class DataBaseController extends SQLiteOpenHelper {
 				Constants.DATABASE_VERSION);
 	}
 
+	public ArrayList<String> loadRecordsGame(Integer gameId) {
+
+		ArrayList<String> listRecords = new ArrayList<String>();
+
+		SQLiteDatabase dbSelect = getReadableDatabase();
+
+		String sql = "SELECT " + Group.COLUMN_NAME + ","
+				+ Record.COLUMN_PLAYER_NAME + "," + Record.COLUMN_VALUE + ","
+				+ Record.COLUMN_TYPE + " FROM " + Record.TABLE_NAME + ", "
+				+ Group.TABLE_NAME + " WHERE " + Record.COLUMN_GROUP_ID + " = "
+				+ Group.COLUMN_ID + " AND " + Record.COLUMN_GAME_ID + " = "
+				+ gameId;
+
+		dbSelect.close();
+
+		return listRecords;
+
+	}
+
 	public ArrayList<Record> loadRecordsGroups(Integer groupId) {
 
 		SQLiteDatabase dbSelect = getReadableDatabase();
@@ -58,6 +77,8 @@ public class DataBaseController extends SQLiteOpenHelper {
 
 		}
 
+		dbSelect.close();
+
 		return listRecords;
 
 	}
@@ -86,6 +107,8 @@ public class DataBaseController extends SQLiteOpenHelper {
 			} while (cursor.moveToNext());
 
 		}
+
+		dbSelect.close();
 
 		return listGroups;
 
@@ -122,6 +145,8 @@ public class DataBaseController extends SQLiteOpenHelper {
 
 		}
 
+		dbSelect.close();
+
 		return listPlayers;
 
 	}
@@ -155,6 +180,8 @@ public class DataBaseController extends SQLiteOpenHelper {
 			} while (cursor.moveToNext());
 
 		}
+
+		dbSelect.close();
 
 		return listGames;
 
@@ -203,7 +230,7 @@ public class DataBaseController extends SQLiteOpenHelper {
 			}
 
 		}
-		
+
 		dbSelect.close();
 
 		SQLiteDatabase dbInsert = getWritableDatabase();
@@ -218,7 +245,7 @@ public class DataBaseController extends SQLiteOpenHelper {
 					+ game.getGoalGame() + ",'" + game.getOrderType() + "')";
 
 			dbInsert.execSQL(sqlInsert);
-			
+
 			dbInsert.close();
 
 		}
@@ -325,7 +352,7 @@ public class DataBaseController extends SQLiteOpenHelper {
 		}
 
 		dbSelect.close();
-		
+
 		SQLiteDatabase dbInsert = getWritableDatabase();
 
 		if (dbInsert != null) {
